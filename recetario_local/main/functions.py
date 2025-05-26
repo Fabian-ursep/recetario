@@ -26,7 +26,7 @@ def elegir_tarea(opcion, ruta, lista):
     elif opcion == '3':
         crear_categoría()
     elif opcion == '4':
-        eliminar_receta()
+        eliminar_receta(lista)
     elif opcion == '5':
         eliminar_categoría()
     else:
@@ -85,8 +85,38 @@ def crear_categoría():
     ruta = Path(__file__).resolve().parent.parent / 'recetas' /nombre_categoría
     ruta.mkdir(exist_ok=True)
 
-def eliminar_receta():
-    print('eliminar receta')
+def eliminar_receta(lista):
+    while True:
+        lista_categorías = lista
+        for i in lista_categorías:
+            print(i)
+        categoria = input('Por favor seleccione una de las categorias mencionadas \n>: ').capitalize()
+        if categoria in lista:
+            ruta_borrar = Path(__file__).resolve().parent.parent / 'recetas' / categoria
+            ruta_eliminar = list(p for p in ruta_borrar.glob('*'))
+            lista_eliminar = [p.stem.capitalize() for p in ruta_eliminar]
+            for i in lista_eliminar:
+                print(i)
+            receta_a_borrar = input('Por favor escriba el nombre de la receta que desea eliminar \n>: ').capitalize()
+            ruta_receta_borrar = str(Path(__file__).resolve().parent.parent / 'recetas' / categoria / receta_a_borrar)
+            ruta_completa_borrar = ruta_receta_borrar + '.txt'
+            while True:
+                confirmacion_borrado = input(f'¿Está seguro de que quiere eliminar la receta "{receta_a_borrar}"?\nDigite "SI/NO" para continuar: ').lower()
+                if confirmacion_borrado == 'si':
+                    os.remove(ruta_completa_borrar)
+                    input('Receta eliminada, presione enter para continuar')
+                    break
+                elif confirmacion_borrado == 'no':
+                    input('Volviendo al menú principal, presione enter para continuar')
+                    break
+                else:
+                    print('Por favor digite "SI/NO: "')
+
+            break
+        else:
+            print('Por favor seleccione una categoría válida:')
+
+
 def eliminar_categoría():
     print('eliminar categoria')
 def salir():
