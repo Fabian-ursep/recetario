@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-
+#Con esta funcion se muestra en pantalla el listado de opciones disponibles
 def mostrar_funciones():
     print('''Por favor, seleccione una de las siguientes opciones:
     1. Leer receta almacenada
@@ -81,7 +81,10 @@ def crear_receta(lista):
     confirmacion_lectura = input('Presione enter para volver al menú principal')
 
 def crear_categoría():
-    print('crear categoria')
+    nombre_categoría = input('Por favor escriba el nombre de la categoría que desee crear\n>: ').capitalize()
+    ruta = Path(__file__).resolve().parent.parent / 'recetas' /nombre_categoría
+    ruta.mkdir(exist_ok=True)
+
 def eliminar_receta():
     print('eliminar receta')
 def eliminar_categoría():
