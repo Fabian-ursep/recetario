@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import shutil
 
 #Con esta funcion se muestra en pantalla el listado de opciones disponibles
 def mostrar_funciones():
@@ -18,6 +19,8 @@ def mostrar_funciones():
         else:
             print('Por favor seleccione una opción correcta')
 
+
+#Esta funcion utiliza la categoría elegida para llamar la funcion relacionada
 def elegir_tarea(opcion, ruta, lista):
     if opcion == '1':
         leer_receta(lista)
@@ -28,7 +31,7 @@ def elegir_tarea(opcion, ruta, lista):
     elif opcion == '4':
         eliminar_receta(lista)
     elif opcion == '5':
-        eliminar_categoría()
+        eliminar_categoria(lista)
     else:
         salir()
 
@@ -117,8 +120,38 @@ def eliminar_receta(lista):
             print('Por favor seleccione una categoría válida:')
 
 
-def eliminar_categoría():
-    print('eliminar categoria')
+def eliminar_categoria(lista):
+    while True:
+        lista_categorías = lista
+        for i in lista_categorías:
+            print(i)
+        categoria = input('Por favor seleccione una categoría para borrar \n>: ').capitalize()
+        if categoria in lista:
+            ruta_borrar = Path(__file__).resolve().parent.parent / 'recetas' / categoria
+            while True:
+                confirmacion_borrado = input(f'¿Está seguro de que quiere eliminar la receta "{categoria}"?\nDigite "SI/NO" para continuar: ').lower()
+                if confirmacion_borrado == 'si':
+                    doble_confirmacion = input('Esto borrará todas las recetas dentro de la categoría seleccionada, ¿Está seguro de que desea continuar? escriba "SI/NO"').lower()
+                    if doble_confirmacion == 'si':
+                        shutil.rmtree(ruta_borrar)
+                        input('Categoría eliminada, presione enter para continuar')
+                        break
+                    elif doble_confirmacion == 'no':
+                        input('volviendo al menú principal, presione enter para continuar')
+                        break
+                    else:
+                        print('Por favor seleccione SI/NO')
+
+                elif confirmacion_borrado == 'no':
+                    input('Volviendo al menú principal, presione enter para continuar')
+                    break
+                else:
+                    print('Por favor digite "SI/NO: "')
+
+            break
+        else:
+            print('Por favor seleccione una categoría válida:')
+
 def salir():
     print('salir')
 
